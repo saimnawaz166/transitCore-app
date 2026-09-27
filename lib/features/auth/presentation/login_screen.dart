@@ -92,9 +92,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 TextFormField(
                   controller: _idController,
                   style: AppTextStyles.body,
-                  keyboardType: TextInputType.phone,
+                  // The driver code (DR-001) and email both need letters, so
+                  // only the OTP flow's actual phone number gets the numeric
+                  // phone keypad — forcing it for every mode (as before) made
+                  // DR-001 impossible to type at all.
+                  keyboardType: _useOtp ? TextInputType.phone : TextInputType.text,
+                  autocorrect: false,
+                  enableSuggestions: false,
                   autofillHints: const [AutofillHints.username],
-                  decoration: const InputDecoration(hintText: 'e.g. DRV-77219 or +966 5X XXX XXXX'),
+                  decoration: InputDecoration(
+                    hintText: _useOtp ? 'e.g. +966 5X XXX XXXX' : 'e.g. DR-001 or your email',
+                  ),
                   validator: (v) => (v == null || v.trim().isEmpty) ? 'Required' : null,
                 ),
                 const SizedBox(height: 20),
