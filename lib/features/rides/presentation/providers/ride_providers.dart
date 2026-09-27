@@ -1,12 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../data/fake_ride_repository.dart';
+import '../../../../core/providers/core_providers.dart';
+import '../../data/real_ride_repository.dart';
 import '../../domain/ride_models.dart';
 import '../../domain/ride_repository.dart';
 import '../../domain/ride_status.dart';
 
 final rideRepositoryProvider = Provider<RideRepository>((ref) {
-  final repo = FakeRideRepository();
+  final repo = RealRideRepository(ref.watch(apiClientProvider));
   ref.onDispose(repo.dispose);
   return repo;
 });
@@ -52,6 +53,8 @@ class RideActionsController {
       _repository.updateStatus(rideId, status);
   Future<void> cancel(String rideId, {String? reason}) =>
       _repository.cancelRide(rideId, reason: reason);
+  Future<void> reportIssue(String rideId, {required String reason, String? note}) =>
+      _repository.reportIssue(rideId, reason: reason, note: note);
 }
 
 final rideActionsProvider = Provider<RideActionsController>((ref) {

@@ -7,7 +7,7 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/gold_button.dart';
 import 'auth_providers.dart';
-import '../data/fake_auth_repository.dart';
+import '../domain/auth_exception.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});

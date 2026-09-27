@@ -18,4 +18,6 @@ abstract class RideRepository {
   Future<void> updateStatus(String rideId, RideStatus newStatus);
 
   Future<void> cancelRide(String rideId, {String? reason});
+
+  Future<void> reportIssue(String rideId, {required String reason, String? note});
 }

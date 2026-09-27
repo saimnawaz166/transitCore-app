@@ -146,6 +146,8 @@ class _RideDetailBodyState extends ConsumerState<_RideDetailBody> {
   Future<void> _reportIssue() async {
     final reason = await ReportIssueSheet.show(context);
     if (reason == null || !mounted) return;
+    await ref.read(rideActionsProvider).reportIssue(widget.ride.id, reason: reason.label);
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Reported: ${reason.label}')),
     );

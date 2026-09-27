@@ -52,6 +52,9 @@ dependencies:
   # Security
   flutter_secure_storage: ^9.2.2
 
+  # Networking
+  dio: ^5.7.0
+
   # Images
   cached_network_image: ^3.4.1
 

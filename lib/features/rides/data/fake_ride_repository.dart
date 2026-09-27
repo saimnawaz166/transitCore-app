@@ -62,6 +62,13 @@ class FakeRideRepository implements RideRepository {
     _mutate(rideId, RideStatus.cancelled, notes: reason);
   }
 
+  @override
+  Future<void> reportIssue(String rideId, {required String reason, String? note}) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    // No backend concept in the fake store — the real repository is the one
+    // that actually files this; here it's just acknowledged.
+  }
+
   void _mutate(String rideId, RideStatus status, {String? notes}) {
     final index = _rides.indexWhere((r) => r.id == rideId);
     if (index == -1) return;

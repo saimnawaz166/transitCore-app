@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import '../../../core/services/secure_storage_service.dart';
+import '../domain/auth_exception.dart';
 import '../domain/auth_repository.dart';
 import '../domain/driver_session.dart';
 
@@ -58,12 +59,4 @@ class FakeAuthRepository implements AuthRepository {
   }
 
   void dispose() => _controller.close();
-}
-
-class AuthException implements Exception {
-  AuthException(this.message);
-  final String message;
-
-  @override
-  String toString() => message;
 }
