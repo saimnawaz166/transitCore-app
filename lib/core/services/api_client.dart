@@ -16,7 +16,7 @@ import 'secure_storage_service.dart';
 class ApiClient {
   ApiClient(this._secureStorage)
       : dio = Dio(BaseOptions(
-          baseUrl: '$_root/api/v1/driver',
+          baseUrl: '$_normalizedRoot/api/v1/driver',
           connectTimeout: const Duration(seconds: 15),
           receiveTimeout: const Duration(seconds: 15),
         )) {
@@ -41,8 +41,13 @@ class ApiClient {
 
   static const _root = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://127.0.0.1:8000',
+    defaultValue: 'http://192.168.1.8:8000/',
   );
+
+  // A trailing slash on _root (easy to paste in by accident, e.g. straight
+  // from a browser address bar) would otherwise double up with the leading
+  // slash below and produce ".../8000//api/v1/driver/...".
+  static final String _normalizedRoot = _root.endsWith('/') ? _root.substring(0, _root.length - 1) : _root;
 
   final SecureStorageService _secureStorage;
   final Dio dio;
