@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../rides/domain/ride_models.dart';
+import 'driver_status.dart';
 
 part 'driver_profile.freezed.dart';
 part 'driver_profile.g.dart';
@@ -18,6 +19,7 @@ abstract class DriverProfile with _$DriverProfile {
     required double completionRate,
     required AssignedVehicle assignedVehicle,
     required DateTime joinedAt,
+    required DriverStatus status,
   }) = _DriverProfile;
 
   factory DriverProfile.fromJson(Map<String, dynamic> json) =>

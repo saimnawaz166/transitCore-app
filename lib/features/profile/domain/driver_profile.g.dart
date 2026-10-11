@@ -20,6 +20,7 @@ _DriverProfile _$DriverProfileFromJson(Map<String, dynamic> json) =>
         json['assignedVehicle'] as Map<String, dynamic>,
       ),
       joinedAt: DateTime.parse(json['joinedAt'] as String),
+      status: $enumDecode(_$DriverStatusEnumMap, json['status']),
     );
 
 Map<String, dynamic> _$DriverProfileToJson(_DriverProfile instance) =>
@@ -34,4 +35,11 @@ Map<String, dynamic> _$DriverProfileToJson(_DriverProfile instance) =>
       'completionRate': instance.completionRate,
       'assignedVehicle': instance.assignedVehicle,
       'joinedAt': instance.joinedAt.toIso8601String(),
+      'status': _$DriverStatusEnumMap[instance.status]!,
     };
+
+const _$DriverStatusEnumMap = {
+  DriverStatus.active: 'active',
+  DriverStatus.onBreak: 'onBreak',
+  DriverStatus.unavailable: 'unavailable',
+};

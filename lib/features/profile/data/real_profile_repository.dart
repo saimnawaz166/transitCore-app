@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import '../../../core/services/api_client.dart';
 import '../../rides/domain/ride_models.dart';
 import '../domain/driver_profile.dart';
+import '../domain/driver_status.dart';
 import '../domain/profile_repository.dart';
 
 /// Polls `GET /driver/auth/me` — the same honest polling bridge used by
@@ -43,6 +44,12 @@ class RealProfileRepository implements ProfileRepository {
     });
   }
 
+  @override
+  Future<void> setStatus(DriverStatus status) async {
+    await _apiClient.dio.post('/status', data: {'status': status.wireValue});
+    await _refresh();
+  }
+
   DriverProfile _mapProfile(Map<String, dynamic> json) {
     final vehicleDetails = json['vehicleDetails'] as Map<String, dynamic>?;
 
@@ -63,6 +70,7 @@ class RealProfileRepository implements ProfileRepository {
               category: vehicleDetails['type'] as String? ?? '—',
             ),
       joinedAt: json['joined'] != null ? DateTime.parse(json['joined'] as String) : DateTime.now(),
+      status: DriverStatus.fromWire(json['status'] as String? ?? 'unavailable'),
     );
   }
 

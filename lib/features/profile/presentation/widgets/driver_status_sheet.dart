@@ -40,6 +40,22 @@ class DriverStatusSheet extends ConsumerStatefulWidget {
 
 class _DriverStatusSheetState extends ConsumerState<DriverStatusSheet> {
   late DriverStatus _selected = ref.read(driverStatusProvider);
+  bool _saving = false;
+
+  Future<void> _confirm() async {
+    setState(() => _saving = true);
+    try {
+      await ref.read(driverStatusProvider.notifier).setStatus(_selected);
+      if (mounted) Navigator.pop(context, _selected);
+    } catch (_) {
+      if (mounted) {
+        setState(() => _saving = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Couldn't update your status — please try again.")),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,12 +93,8 @@ class _DriverStatusSheetState extends ConsumerState<DriverStatusSheet> {
             const SizedBox(height: AppSpacing.sm),
             GoldButton(
               label: 'Confirm Status',
-              onPressed: _selected == current
-                  ? null
-                  : () {
-                      ref.read(driverStatusProvider.notifier).setStatus(_selected);
-                      Navigator.pop(context, _selected);
-                    },
+              isLoading: _saving,
+              onPressed: _selected == current ? null : _confirm,
             ),
           ],
         ),
