@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "468759726862",
+    "project_id": "transitcore-d1b07",
+    "storage_bucket": "transitcore-d1b07.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:468759726862:android:ccb678fc95aea37811e55f",
+        "android_client_info": {
+          "package_name": "com.fleetops.fleet_driver_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARtb1IRTJn0coch70vCkBiJ42rt_dN3fs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
