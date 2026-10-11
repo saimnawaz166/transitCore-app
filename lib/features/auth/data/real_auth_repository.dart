@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 
 import '../../../core/services/api_client.dart';
 import '../../../core/services/secure_storage_service.dart';
+import '../../../core/utils/api_error.dart';
 import '../domain/auth_exception.dart';
 import '../domain/auth_repository.dart';
 import '../domain/driver_session.dart';
@@ -56,7 +57,7 @@ class RealAuthRepository implements AuthRepository {
       _controller.add(session);
       return session;
     } on DioException catch (e) {
-      throw AuthException(_extractMessage(e) ?? 'Unable to sign in — check your driver ID and password.');
+      throw AuthException(extractApiErrorMessage(e) ?? 'Unable to sign in — check your driver ID and password.');
     }
   }
 
@@ -75,19 +76,6 @@ class RealAuthRepository implements AuthRepository {
       await _secureStorage.clearSession();
       _controller.add(null);
     }
-  }
-
-  String? _extractMessage(DioException e) {
-    final data = e.response?.data;
-    if (data is Map) {
-      final errors = data['errors'];
-      if (errors is Map && errors.isNotEmpty) {
-        final first = errors.values.first;
-        if (first is List && first.isNotEmpty) return first.first.toString();
-      }
-      if (data['message'] is String) return data['message'] as String;
-    }
-    return null;
   }
 
   void dispose() {

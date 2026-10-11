@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -5,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/api_error.dart';
 import '../../../../core/utils/formatters.dart';
 import '../../../../core/widgets/app_card.dart';
 import '../../../../core/widgets/gold_button.dart';
@@ -92,6 +94,15 @@ class _RideDetailBodyState extends ConsumerState<_RideDetailBody> {
         case RideStatus.cancelled:
           break;
       }
+    } on DioException catch (e) {
+      // Without this, a rejected action (e.g. the backend's own validation
+      // rules) just silently resets the button with zero explanation —
+      // which reads as "stuck", not as an error.
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(extractApiErrorMessage(e) ?? "Couldn't update this job — please try again.")),
+        );
+      }
     } finally {
       if (mounted) setState(() => _isActing = false);
     }
@@ -140,13 +151,30 @@ class _RideDetailBodyState extends ConsumerState<_RideDetailBody> {
       builder: (context) => _CancelDialog(),
     );
     if (reason == null) return;
-    await ref.read(rideActionsProvider).cancel(widget.ride.id, reason: reason);
+    try {
+      await ref.read(rideActionsProvider).cancel(widget.ride.id, reason: reason);
+    } on DioException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(extractApiErrorMessage(e) ?? "Couldn't cancel this job — please try again.")),
+        );
+      }
+    }
   }
 
   Future<void> _reportIssue() async {
     final reason = await ReportIssueSheet.show(context);
     if (reason == null || !mounted) return;
-    await ref.read(rideActionsProvider).reportIssue(widget.ride.id, reason: reason.label);
+    try {
+      await ref.read(rideActionsProvider).reportIssue(widget.ride.id, reason: reason.label);
+    } on DioException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(extractApiErrorMessage(e) ?? "Couldn't report this issue — please try again.")),
+        );
+      }
+      return;
+    }
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text('Reported: ${reason.label}')),
