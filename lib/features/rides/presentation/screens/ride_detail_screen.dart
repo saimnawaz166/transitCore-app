@@ -136,6 +136,17 @@ class _RideDetailBodyState extends ConsumerState<_RideDetailBody> {
 
   Future<void> _messagePassenger(String phone) => _launchUri(Uri(scheme: 'sms', path: phone));
 
+  /// No real lat/lng exists anywhere in this app by design (see
+  /// _RouteMapPlaceholder) — a query-based maps search URL works from just
+  /// the address string, no coordinates needed. Navigates to whichever leg
+  /// of the trip is next: the pickup before arrival, the dropoff after.
+  Future<void> _navigate() {
+    final destination = widget.ride.status == RideStatus.arrived || widget.ride.status == RideStatus.inProgress
+        ? widget.ride.dropoff
+        : widget.ride.pickup;
+    return _launchUri(Uri.https('www.google.com', '/maps/search/', {'api': '1', 'query': destination.address}));
+  }
+
   Future<void> _launchUri(Uri uri) async {
     final launched = await launchUrl(uri);
     if (!launched && mounted) {
@@ -465,7 +476,7 @@ class _RideDetailBodyState extends ConsumerState<_RideDetailBody> {
               GoldOutlinedButton(
                 label: 'Navigate',
                 icon: Icons.navigation_outlined,
-                onPressed: () {},
+                onPressed: _navigate,
               ),
               const SizedBox(height: AppSpacing.md),
             ],

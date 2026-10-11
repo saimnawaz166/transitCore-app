@@ -59,7 +59,7 @@ class HomeDashboardScreen extends ConsumerWidget {
         body: RefreshIndicator(
           color: AppColors.gold,
           backgroundColor: AppColors.surface,
-          onRefresh: () async {},
+          onRefresh: () => ref.read(rideRepositoryProvider).refresh(),
           child: ListView(
             padding: const EdgeInsets.all(AppSpacing.lg),
             children: [

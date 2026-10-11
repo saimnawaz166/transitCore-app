@@ -14,8 +14,8 @@ import '../domain/ride_status.dart';
 /// reflects the change without waiting for the next tick.
 class RealRideRepository implements RideRepository {
   RealRideRepository(this._apiClient) {
-    _refresh();
-    _timer = Timer.periodic(_pollInterval, (_) => _refresh());
+    refresh();
+    _timer = Timer.periodic(_pollInterval, (_) => refresh());
   }
 
   static const _pollInterval = Duration(seconds: 8);
@@ -25,7 +25,8 @@ class RealRideRepository implements RideRepository {
   List<Ride> _cache = [];
   Timer? _timer;
 
-  Future<void> _refresh() async {
+  @override
+  Future<void> refresh() async {
     try {
       final response = await _apiClient.dio.get('/bookings', queryParameters: {'per_page': 100});
       final rows = (response.data as Map<String, dynamic>)['data'] as List;
@@ -59,7 +60,7 @@ class RealRideRepository implements RideRepository {
   @override
   Future<void> acceptRide(String rideId) async {
     await _apiClient.dio.post('/bookings/$rideId/advance');
-    await _refresh();
+    await refresh();
   }
 
   @override
@@ -71,7 +72,7 @@ class RealRideRepository implements RideRepository {
     // "complete" (a separate endpoint since it also moves the booking's tab).
     final path = newStatus == RideStatus.completed ? 'complete' : 'advance';
     await _apiClient.dio.post('/bookings/$rideId/$path');
-    await _refresh();
+    await refresh();
   }
 
   @override
@@ -79,7 +80,7 @@ class RealRideRepository implements RideRepository {
     await _apiClient.dio.post('/bookings/$rideId/cancel', data: {
       if (reason != null) 'reason': reason,
     });
-    await _refresh();
+    await refresh();
   }
 
   @override
@@ -88,7 +89,7 @@ class RealRideRepository implements RideRepository {
       'reason': reason,
       if (note != null) 'note': note,
     });
-    await _refresh();
+    await refresh();
   }
 
   Ride _mapBooking(Map<String, dynamic> json) {

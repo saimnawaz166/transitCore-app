@@ -20,4 +20,8 @@ abstract class RideRepository {
   Future<void> cancelRide(String rideId, {String? reason});
 
   Future<void> reportIssue(String rideId, {required String reason, String? note});
+
+  /// Forces an immediate re-fetch instead of waiting for the next poll tick
+  /// — what a manual pull-to-refresh is actually asking for.
+  Future<void> refresh();
 }
