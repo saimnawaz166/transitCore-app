@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$DriverProfile {
 
- String get driverId; String get fullName; String get driverCode; String get phone; String? get photoUrl; double get rating; int get completedTrips; double get completionRate; AssignedVehicle get assignedVehicle; DateTime get joinedAt; DriverStatus get status;
+ String get driverId; String get fullName; String get driverCode; String get phone; String? get photoUrl; double get rating; int get completedTrips; double get completionRate; AssignedVehicle get assignedVehicle; DateTime get joinedAt; DriverStatus get status; bool get notifyNewAssignments; bool get notifyStatusChanges; bool get notifyPromotions;
 /// Create a copy of DriverProfile
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -30,20 +30,20 @@ $DriverProfileCopyWith<DriverProfile> get copyWith => _$DriverProfileCopyWithImp
 @override
 bool operator ==(Object other) {
   final _this = this as DriverProfile;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is DriverProfile&&(identical(other.driverId, _this.driverId) || other.driverId == _this.driverId)&&(identical(other.fullName, _this.fullName) || other.fullName == _this.fullName)&&(identical(other.driverCode, _this.driverCode) || other.driverCode == _this.driverCode)&&(identical(other.phone, _this.phone) || other.phone == _this.phone)&&(identical(other.photoUrl, _this.photoUrl) || other.photoUrl == _this.photoUrl)&&(identical(other.rating, _this.rating) || other.rating == _this.rating)&&(identical(other.completedTrips, _this.completedTrips) || other.completedTrips == _this.completedTrips)&&(identical(other.completionRate, _this.completionRate) || other.completionRate == _this.completionRate)&&(identical(other.assignedVehicle, _this.assignedVehicle) || other.assignedVehicle == _this.assignedVehicle)&&(identical(other.joinedAt, _this.joinedAt) || other.joinedAt == _this.joinedAt)&&(identical(other.status, _this.status) || other.status == _this.status));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is DriverProfile&&(identical(other.driverId, _this.driverId) || other.driverId == _this.driverId)&&(identical(other.fullName, _this.fullName) || other.fullName == _this.fullName)&&(identical(other.driverCode, _this.driverCode) || other.driverCode == _this.driverCode)&&(identical(other.phone, _this.phone) || other.phone == _this.phone)&&(identical(other.photoUrl, _this.photoUrl) || other.photoUrl == _this.photoUrl)&&(identical(other.rating, _this.rating) || other.rating == _this.rating)&&(identical(other.completedTrips, _this.completedTrips) || other.completedTrips == _this.completedTrips)&&(identical(other.completionRate, _this.completionRate) || other.completionRate == _this.completionRate)&&(identical(other.assignedVehicle, _this.assignedVehicle) || other.assignedVehicle == _this.assignedVehicle)&&(identical(other.joinedAt, _this.joinedAt) || other.joinedAt == _this.joinedAt)&&(identical(other.status, _this.status) || other.status == _this.status)&&(identical(other.notifyNewAssignments, _this.notifyNewAssignments) || other.notifyNewAssignments == _this.notifyNewAssignments)&&(identical(other.notifyStatusChanges, _this.notifyStatusChanges) || other.notifyStatusChanges == _this.notifyStatusChanges)&&(identical(other.notifyPromotions, _this.notifyPromotions) || other.notifyPromotions == _this.notifyPromotions));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
   final _this = this as DriverProfile;
-  return Object.hash(runtimeType,_this.driverId,_this.fullName,_this.driverCode,_this.phone,_this.photoUrl,_this.rating,_this.completedTrips,_this.completionRate,_this.assignedVehicle,_this.joinedAt,_this.status);
+  return Object.hash(runtimeType,_this.driverId,_this.fullName,_this.driverCode,_this.phone,_this.photoUrl,_this.rating,_this.completedTrips,_this.completionRate,_this.assignedVehicle,_this.joinedAt,_this.status,_this.notifyNewAssignments,_this.notifyStatusChanges,_this.notifyPromotions);
 }
 
 @override
 String toString() {
   final _this = this as DriverProfile;
-  return 'DriverProfile(driverId: ${_this.driverId}, fullName: ${_this.fullName}, driverCode: ${_this.driverCode}, phone: ${_this.phone}, photoUrl: ${_this.photoUrl}, rating: ${_this.rating}, completedTrips: ${_this.completedTrips}, completionRate: ${_this.completionRate}, assignedVehicle: ${_this.assignedVehicle}, joinedAt: ${_this.joinedAt}, status: ${_this.status})';
+  return 'DriverProfile(driverId: ${_this.driverId}, fullName: ${_this.fullName}, driverCode: ${_this.driverCode}, phone: ${_this.phone}, photoUrl: ${_this.photoUrl}, rating: ${_this.rating}, completedTrips: ${_this.completedTrips}, completionRate: ${_this.completionRate}, assignedVehicle: ${_this.assignedVehicle}, joinedAt: ${_this.joinedAt}, status: ${_this.status}, notifyNewAssignments: ${_this.notifyNewAssignments}, notifyStatusChanges: ${_this.notifyStatusChanges}, notifyPromotions: ${_this.notifyPromotions})';
 }
 
 
@@ -54,7 +54,7 @@ abstract mixin class $DriverProfileCopyWith<$Res>  {
   factory $DriverProfileCopyWith(DriverProfile value, $Res Function(DriverProfile) _then) = _$DriverProfileCopyWithImpl;
 @useResult
 $Res call({
- String driverId, String fullName, String driverCode, String phone, String? photoUrl, double rating, int completedTrips, double completionRate, AssignedVehicle assignedVehicle, DateTime joinedAt, DriverStatus status
+ String driverId, String fullName, String driverCode, String phone, String? photoUrl, double rating, int completedTrips, double completionRate, AssignedVehicle assignedVehicle, DateTime joinedAt, DriverStatus status, bool notifyNewAssignments, bool notifyStatusChanges, bool notifyPromotions
 });
 
 
@@ -71,7 +71,7 @@ class _$DriverProfileCopyWithImpl<$Res>
 
 /// Create a copy of DriverProfile
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? driverId = null,Object? fullName = null,Object? driverCode = null,Object? phone = null,Object? photoUrl = freezed,Object? rating = null,Object? completedTrips = null,Object? completionRate = null,Object? assignedVehicle = null,Object? joinedAt = null,Object? status = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? driverId = null,Object? fullName = null,Object? driverCode = null,Object? phone = null,Object? photoUrl = freezed,Object? rating = null,Object? completedTrips = null,Object? completionRate = null,Object? assignedVehicle = null,Object? joinedAt = null,Object? status = null,Object? notifyNewAssignments = null,Object? notifyStatusChanges = null,Object? notifyPromotions = null,}) {
   return _then(DriverProfile(
 driverId: null == driverId ? _self.driverId : driverId // ignore: cast_nullable_to_non_nullable
 as String,fullName: null == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
@@ -84,7 +84,10 @@ as int,completionRate: null == completionRate ? _self.completionRate : completio
 as double,assignedVehicle: null == assignedVehicle ? _self.assignedVehicle : assignedVehicle // ignore: cast_nullable_to_non_nullable
 as AssignedVehicle,joinedAt: null == joinedAt ? _self.joinedAt : joinedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as DriverStatus,
+as DriverStatus,notifyNewAssignments: null == notifyNewAssignments ? _self.notifyNewAssignments : notifyNewAssignments // ignore: cast_nullable_to_non_nullable
+as bool,notifyStatusChanges: null == notifyStatusChanges ? _self.notifyStatusChanges : notifyStatusChanges // ignore: cast_nullable_to_non_nullable
+as bool,notifyPromotions: null == notifyPromotions ? _self.notifyPromotions : notifyPromotions // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 /// Create a copy of DriverProfile
@@ -178,10 +181,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String driverId,  String fullName,  String driverCode,  String phone,  String? photoUrl,  double rating,  int completedTrips,  double completionRate,  AssignedVehicle assignedVehicle,  DateTime joinedAt,  DriverStatus status)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String driverId,  String fullName,  String driverCode,  String phone,  String? photoUrl,  double rating,  int completedTrips,  double completionRate,  AssignedVehicle assignedVehicle,  DateTime joinedAt,  DriverStatus status,  bool notifyNewAssignments,  bool notifyStatusChanges,  bool notifyPromotions)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _DriverProfile() when $default != null:
-return $default(_that.driverId,_that.fullName,_that.driverCode,_that.phone,_that.photoUrl,_that.rating,_that.completedTrips,_that.completionRate,_that.assignedVehicle,_that.joinedAt,_that.status);case _:
+return $default(_that.driverId,_that.fullName,_that.driverCode,_that.phone,_that.photoUrl,_that.rating,_that.completedTrips,_that.completionRate,_that.assignedVehicle,_that.joinedAt,_that.status,_that.notifyNewAssignments,_that.notifyStatusChanges,_that.notifyPromotions);case _:
   return orElse();
 
 }
@@ -199,10 +202,10 @@ return $default(_that.driverId,_that.fullName,_that.driverCode,_that.phone,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String driverId,  String fullName,  String driverCode,  String phone,  String? photoUrl,  double rating,  int completedTrips,  double completionRate,  AssignedVehicle assignedVehicle,  DateTime joinedAt,  DriverStatus status)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String driverId,  String fullName,  String driverCode,  String phone,  String? photoUrl,  double rating,  int completedTrips,  double completionRate,  AssignedVehicle assignedVehicle,  DateTime joinedAt,  DriverStatus status,  bool notifyNewAssignments,  bool notifyStatusChanges,  bool notifyPromotions)  $default,) {final _that = this;
 switch (_that) {
 case _DriverProfile():
-return $default(_that.driverId,_that.fullName,_that.driverCode,_that.phone,_that.photoUrl,_that.rating,_that.completedTrips,_that.completionRate,_that.assignedVehicle,_that.joinedAt,_that.status);case _:
+return $default(_that.driverId,_that.fullName,_that.driverCode,_that.phone,_that.photoUrl,_that.rating,_that.completedTrips,_that.completionRate,_that.assignedVehicle,_that.joinedAt,_that.status,_that.notifyNewAssignments,_that.notifyStatusChanges,_that.notifyPromotions);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -219,10 +222,10 @@ return $default(_that.driverId,_that.fullName,_that.driverCode,_that.phone,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String driverId,  String fullName,  String driverCode,  String phone,  String? photoUrl,  double rating,  int completedTrips,  double completionRate,  AssignedVehicle assignedVehicle,  DateTime joinedAt,  DriverStatus status)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String driverId,  String fullName,  String driverCode,  String phone,  String? photoUrl,  double rating,  int completedTrips,  double completionRate,  AssignedVehicle assignedVehicle,  DateTime joinedAt,  DriverStatus status,  bool notifyNewAssignments,  bool notifyStatusChanges,  bool notifyPromotions)?  $default,) {final _that = this;
 switch (_that) {
 case _DriverProfile() when $default != null:
-return $default(_that.driverId,_that.fullName,_that.driverCode,_that.phone,_that.photoUrl,_that.rating,_that.completedTrips,_that.completionRate,_that.assignedVehicle,_that.joinedAt,_that.status);case _:
+return $default(_that.driverId,_that.fullName,_that.driverCode,_that.phone,_that.photoUrl,_that.rating,_that.completedTrips,_that.completionRate,_that.assignedVehicle,_that.joinedAt,_that.status,_that.notifyNewAssignments,_that.notifyStatusChanges,_that.notifyPromotions);case _:
   return null;
 
 }
@@ -234,7 +237,7 @@ return $default(_that.driverId,_that.fullName,_that.driverCode,_that.phone,_that
 @JsonSerializable()
 
 class _DriverProfile implements DriverProfile {
-  const _DriverProfile({required this.driverId, required this.fullName, required this.driverCode, required this.phone, this.photoUrl, required this.rating, required this.completedTrips, required this.completionRate, required this.assignedVehicle, required this.joinedAt, required this.status});
+  const _DriverProfile({required this.driverId, required this.fullName, required this.driverCode, required this.phone, this.photoUrl, required this.rating, required this.completedTrips, required this.completionRate, required this.assignedVehicle, required this.joinedAt, required this.status, this.notifyNewAssignments = true, this.notifyStatusChanges = true, this.notifyPromotions = false});
   factory _DriverProfile.fromJson(Map<String, dynamic> json) => _$DriverProfileFromJson(json);
 
 @override final  String driverId;
@@ -248,6 +251,9 @@ class _DriverProfile implements DriverProfile {
 @override final  AssignedVehicle assignedVehicle;
 @override final  DateTime joinedAt;
 @override final  DriverStatus status;
+@override@JsonKey() final  bool notifyNewAssignments;
+@override@JsonKey() final  bool notifyStatusChanges;
+@override@JsonKey() final  bool notifyPromotions;
 
 /// Create a copy of DriverProfile
 /// with the given fields replaced by the non-null parameter values.
@@ -262,18 +268,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DriverProfile&&(identical(other.driverId, driverId) || other.driverId == driverId)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.driverCode, driverCode) || other.driverCode == driverCode)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.completedTrips, completedTrips) || other.completedTrips == completedTrips)&&(identical(other.completionRate, completionRate) || other.completionRate == completionRate)&&(identical(other.assignedVehicle, assignedVehicle) || other.assignedVehicle == assignedVehicle)&&(identical(other.joinedAt, joinedAt) || other.joinedAt == joinedAt)&&(identical(other.status, status) || other.status == status));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _DriverProfile&&(identical(other.driverId, driverId) || other.driverId == driverId)&&(identical(other.fullName, fullName) || other.fullName == fullName)&&(identical(other.driverCode, driverCode) || other.driverCode == driverCode)&&(identical(other.phone, phone) || other.phone == phone)&&(identical(other.photoUrl, photoUrl) || other.photoUrl == photoUrl)&&(identical(other.rating, rating) || other.rating == rating)&&(identical(other.completedTrips, completedTrips) || other.completedTrips == completedTrips)&&(identical(other.completionRate, completionRate) || other.completionRate == completionRate)&&(identical(other.assignedVehicle, assignedVehicle) || other.assignedVehicle == assignedVehicle)&&(identical(other.joinedAt, joinedAt) || other.joinedAt == joinedAt)&&(identical(other.status, status) || other.status == status)&&(identical(other.notifyNewAssignments, notifyNewAssignments) || other.notifyNewAssignments == notifyNewAssignments)&&(identical(other.notifyStatusChanges, notifyStatusChanges) || other.notifyStatusChanges == notifyStatusChanges)&&(identical(other.notifyPromotions, notifyPromotions) || other.notifyPromotions == notifyPromotions));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-    return Object.hash(runtimeType,driverId,fullName,driverCode,phone,photoUrl,rating,completedTrips,completionRate,assignedVehicle,joinedAt,status);
+    return Object.hash(runtimeType,driverId,fullName,driverCode,phone,photoUrl,rating,completedTrips,completionRate,assignedVehicle,joinedAt,status,notifyNewAssignments,notifyStatusChanges,notifyPromotions);
 }
 
 @override
 String toString() {
-    return 'DriverProfile(driverId: $driverId, fullName: $fullName, driverCode: $driverCode, phone: $phone, photoUrl: $photoUrl, rating: $rating, completedTrips: $completedTrips, completionRate: $completionRate, assignedVehicle: $assignedVehicle, joinedAt: $joinedAt, status: $status)';
+    return 'DriverProfile(driverId: $driverId, fullName: $fullName, driverCode: $driverCode, phone: $phone, photoUrl: $photoUrl, rating: $rating, completedTrips: $completedTrips, completionRate: $completionRate, assignedVehicle: $assignedVehicle, joinedAt: $joinedAt, status: $status, notifyNewAssignments: $notifyNewAssignments, notifyStatusChanges: $notifyStatusChanges, notifyPromotions: $notifyPromotions)';
 }
 
 
@@ -284,7 +290,7 @@ abstract mixin class _$DriverProfileCopyWith<$Res> implements $DriverProfileCopy
   factory _$DriverProfileCopyWith(_DriverProfile value, $Res Function(_DriverProfile) _then) = __$DriverProfileCopyWithImpl;
 @override @useResult
 $Res call({
- String driverId, String fullName, String driverCode, String phone, String? photoUrl, double rating, int completedTrips, double completionRate, AssignedVehicle assignedVehicle, DateTime joinedAt, DriverStatus status
+ String driverId, String fullName, String driverCode, String phone, String? photoUrl, double rating, int completedTrips, double completionRate, AssignedVehicle assignedVehicle, DateTime joinedAt, DriverStatus status, bool notifyNewAssignments, bool notifyStatusChanges, bool notifyPromotions
 });
 
 
@@ -301,7 +307,7 @@ class __$DriverProfileCopyWithImpl<$Res>
 
 /// Create a copy of DriverProfile
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? driverId = null,Object? fullName = null,Object? driverCode = null,Object? phone = null,Object? photoUrl = freezed,Object? rating = null,Object? completedTrips = null,Object? completionRate = null,Object? assignedVehicle = null,Object? joinedAt = null,Object? status = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? driverId = null,Object? fullName = null,Object? driverCode = null,Object? phone = null,Object? photoUrl = freezed,Object? rating = null,Object? completedTrips = null,Object? completionRate = null,Object? assignedVehicle = null,Object? joinedAt = null,Object? status = null,Object? notifyNewAssignments = null,Object? notifyStatusChanges = null,Object? notifyPromotions = null,}) {
   return _then(_DriverProfile(
 driverId: null == driverId ? _self.driverId : driverId // ignore: cast_nullable_to_non_nullable
 as String,fullName: null == fullName ? _self.fullName : fullName // ignore: cast_nullable_to_non_nullable
@@ -314,7 +320,10 @@ as int,completionRate: null == completionRate ? _self.completionRate : completio
 as double,assignedVehicle: null == assignedVehicle ? _self.assignedVehicle : assignedVehicle // ignore: cast_nullable_to_non_nullable
 as AssignedVehicle,joinedAt: null == joinedAt ? _self.joinedAt : joinedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,status: null == status ? _self.status : status // ignore: cast_nullable_to_non_nullable
-as DriverStatus,
+as DriverStatus,notifyNewAssignments: null == notifyNewAssignments ? _self.notifyNewAssignments : notifyNewAssignments // ignore: cast_nullable_to_non_nullable
+as bool,notifyStatusChanges: null == notifyStatusChanges ? _self.notifyStatusChanges : notifyStatusChanges // ignore: cast_nullable_to_non_nullable
+as bool,notifyPromotions: null == notifyPromotions ? _self.notifyPromotions : notifyPromotions // ignore: cast_nullable_to_non_nullable
+as bool,
   ));
 }
 

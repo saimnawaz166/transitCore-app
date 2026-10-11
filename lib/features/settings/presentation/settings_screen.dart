@@ -7,6 +7,7 @@ import '../../../core/theme/app_spacing.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/app_card.dart';
 import '../../auth/presentation/auth_providers.dart';
+import '../../profile/presentation/profile_providers.dart';
 
 class SettingsScreen extends ConsumerStatefulWidget {
   const SettingsScreen({super.key});
@@ -16,9 +17,6 @@ class SettingsScreen extends ConsumerStatefulWidget {
 }
 
 class _SettingsScreenState extends ConsumerState<SettingsScreen> {
-  bool _newAssignments = true;
-  bool _statusChanges = true;
-  bool _promotions = false;
   String _version = '';
 
   @override
@@ -31,6 +29,15 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     final info = await PackageInfo.fromPlatform();
     if (mounted) setState(() => _version = '${info.version} (${info.buildNumber})');
   }
+
+  Future<void> _setNewAssignments(bool value) =>
+      ref.read(profileRepositoryProvider).updateNotificationPreferences(notifyNewAssignments: value);
+
+  Future<void> _setStatusChanges(bool value) =>
+      ref.read(profileRepositoryProvider).updateNotificationPreferences(notifyStatusChanges: value);
+
+  Future<void> _setPromotions(bool value) =>
+      ref.read(profileRepositoryProvider).updateNotificationPreferences(notifyPromotions: value);
 
   Future<void> _confirmLogout() async {
     final confirmed = await showDialog<bool>(
@@ -56,6 +63,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final profile = ref.watch(myProfileProvider).value;
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(title: const Text('Settings')),
@@ -70,20 +79,20 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
               children: [
                 _SwitchRow(
                   title: 'New assignments',
-                  value: _newAssignments,
-                  onChanged: (v) => setState(() => _newAssignments = v),
+                  value: profile?.notifyNewAssignments ?? true,
+                  onChanged: _setNewAssignments,
                 ),
                 const Divider(height: 1, indent: AppSpacing.lg, endIndent: AppSpacing.lg),
                 _SwitchRow(
                   title: 'Status changes',
-                  value: _statusChanges,
-                  onChanged: (v) => setState(() => _statusChanges = v),
+                  value: profile?.notifyStatusChanges ?? true,
+                  onChanged: _setStatusChanges,
                 ),
                 const Divider(height: 1, indent: AppSpacing.lg, endIndent: AppSpacing.lg),
                 _SwitchRow(
                   title: 'News & promotions',
-                  value: _promotions,
-                  onChanged: (v) => setState(() => _promotions = v),
+                  value: profile?.notifyPromotions ?? false,
+                  onChanged: _setPromotions,
                 ),
               ],
             ),

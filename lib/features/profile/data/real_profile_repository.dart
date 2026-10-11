@@ -50,6 +50,20 @@ class RealProfileRepository implements ProfileRepository {
     await _refresh();
   }
 
+  @override
+  Future<void> updateNotificationPreferences({
+    bool? notifyNewAssignments,
+    bool? notifyStatusChanges,
+    bool? notifyPromotions,
+  }) async {
+    await _apiClient.dio.patch('/notification-preferences', data: {
+      if (notifyNewAssignments != null) 'notify_new_assignments': notifyNewAssignments,
+      if (notifyStatusChanges != null) 'notify_status_changes': notifyStatusChanges,
+      if (notifyPromotions != null) 'notify_promotions': notifyPromotions,
+    });
+    await _refresh();
+  }
+
   DriverProfile _mapProfile(Map<String, dynamic> json) {
     final vehicleDetails = json['vehicleDetails'] as Map<String, dynamic>?;
 
@@ -71,6 +85,9 @@ class RealProfileRepository implements ProfileRepository {
             ),
       joinedAt: json['joined'] != null ? DateTime.parse(json['joined'] as String) : DateTime.now(),
       status: DriverStatus.fromWire(json['status'] as String? ?? 'unavailable'),
+      notifyNewAssignments: json['notifyNewAssignments'] as bool? ?? true,
+      notifyStatusChanges: json['notifyStatusChanges'] as bool? ?? true,
+      notifyPromotions: json['notifyPromotions'] as bool? ?? false,
     );
   }
 

@@ -21,6 +21,9 @@ _DriverProfile _$DriverProfileFromJson(Map<String, dynamic> json) =>
       ),
       joinedAt: DateTime.parse(json['joinedAt'] as String),
       status: $enumDecode(_$DriverStatusEnumMap, json['status']),
+      notifyNewAssignments: json['notifyNewAssignments'] as bool? ?? true,
+      notifyStatusChanges: json['notifyStatusChanges'] as bool? ?? true,
+      notifyPromotions: json['notifyPromotions'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$DriverProfileToJson(_DriverProfile instance) =>
@@ -36,6 +39,9 @@ Map<String, dynamic> _$DriverProfileToJson(_DriverProfile instance) =>
       'assignedVehicle': instance.assignedVehicle,
       'joinedAt': instance.joinedAt.toIso8601String(),
       'status': _$DriverStatusEnumMap[instance.status]!,
+      'notifyNewAssignments': instance.notifyNewAssignments,
+      'notifyStatusChanges': instance.notifyStatusChanges,
+      'notifyPromotions': instance.notifyPromotions,
     };
 
 const _$DriverStatusEnumMap = {

@@ -20,6 +20,9 @@ abstract class DriverProfile with _$DriverProfile {
     required AssignedVehicle assignedVehicle,
     required DateTime joinedAt,
     required DriverStatus status,
+    @Default(true) bool notifyNewAssignments,
+    @Default(true) bool notifyStatusChanges,
+    @Default(false) bool notifyPromotions,
   }) = _DriverProfile;
 
   factory DriverProfile.fromJson(Map<String, dynamic> json) =>

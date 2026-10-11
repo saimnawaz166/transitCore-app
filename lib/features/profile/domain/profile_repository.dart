@@ -8,4 +8,13 @@ abstract class ProfileRepository {
   /// Sets the driver's own availability toggle (Active / Taking a break /
   /// Unavailable), persisted server-side so the admin panel sees it too.
   Future<void> setStatus(DriverStatus status);
+
+  /// Updates one or more notification preferences (Settings screen's three
+  /// switches). Only the fields passed are changed — the rest keep their
+  /// current server-side value, matching the backend's `sometimes` rules.
+  Future<void> updateNotificationPreferences({
+    bool? notifyNewAssignments,
+    bool? notifyStatusChanges,
+    bool? notifyPromotions,
+  });
 }
