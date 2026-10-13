@@ -12,8 +12,8 @@ import '../domain/profile_repository.dart';
 /// [RealRideRepository], since there's no push mechanism on the backend.
 class RealProfileRepository implements ProfileRepository {
   RealProfileRepository(this._apiClient) {
-    _refresh();
-    _timer = Timer.periodic(_pollInterval, (_) => _refresh());
+    refresh();
+    _timer = Timer.periodic(_pollInterval, (_) => refresh());
   }
 
   static const _pollInterval = Duration(seconds: 30);
@@ -23,7 +23,8 @@ class RealProfileRepository implements ProfileRepository {
   DriverProfile? _cache;
   Timer? _timer;
 
-  Future<void> _refresh() async {
+  @override
+  Future<void> refresh() async {
     try {
       final response = await _apiClient.dio.get('/auth/me');
       final profile = _mapProfile((response.data as Map<String, dynamic>)['data'] as Map<String, dynamic>);
@@ -47,7 +48,7 @@ class RealProfileRepository implements ProfileRepository {
   @override
   Future<void> setStatus(DriverStatus status) async {
     await _apiClient.dio.post('/status', data: {'status': status.wireValue});
-    await _refresh();
+    await refresh();
   }
 
   @override
@@ -61,7 +62,7 @@ class RealProfileRepository implements ProfileRepository {
       if (notifyStatusChanges != null) 'notify_status_changes': notifyStatusChanges,
       if (notifyPromotions != null) 'notify_promotions': notifyPromotions,
     });
-    await _refresh();
+    await refresh();
   }
 
   DriverProfile _mapProfile(Map<String, dynamic> json) {
@@ -75,6 +76,7 @@ class RealProfileRepository implements ProfileRepository {
       rating: (json['rating'] as num?)?.toDouble() ?? 0.0,
       completedTrips: json['completedTrips'] as int? ?? 0,
       completionRate: (json['completionRate'] as num?)?.toDouble() ?? 1.0,
+      todayPayout: (json['todayPayout'] as num?)?.toDouble() ?? 0.0,
       assignedVehicle: vehicleDetails == null
           ? const AssignedVehicle(make: '—', model: '—', plateNumber: '—', category: '—')
           : AssignedVehicle(

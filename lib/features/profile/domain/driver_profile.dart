@@ -17,6 +17,7 @@ abstract class DriverProfile with _$DriverProfile {
     required double rating,
     required int completedTrips,
     required double completionRate,
+    @Default(0) double todayPayout,
     required AssignedVehicle assignedVehicle,
     required DateTime joinedAt,
     required DriverStatus status,

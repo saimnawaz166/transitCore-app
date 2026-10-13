@@ -25,11 +25,6 @@ class HomeDashboardScreen extends ConsumerWidget {
     final driverStatus = ref.watch(driverStatusProvider);
     final incoming = ref.watch(incomingRidesProvider);
     final current = ref.watch(currentRidesProvider);
-    final past = ref.watch(pastRidesProvider);
-
-    final todaysPayout = [...current, ...past]
-        .where((r) => Formatters.relativeDay(r.scheduledAt) == 'Today')
-        .fold<double>(0, (sum, r) => sum + r.fare.driverPayout);
 
     return SecureScreen(
       child: Scaffold(
@@ -68,7 +63,7 @@ class HomeDashboardScreen extends ConsumerWidget {
                   Expanded(
                     child: _StatCard(
                       label: "Today's Payout",
-                      value: Formatters.currency(todaysPayout, 'SAR'),
+                      value: Formatters.currency(profile?.todayPayout ?? 0, 'SAR'),
                       icon: Icons.payments_outlined,
                     ),
                   ),

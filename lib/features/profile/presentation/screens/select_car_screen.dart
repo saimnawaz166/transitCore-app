@@ -1,15 +1,20 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/api_error.dart';
 import '../../../../core/widgets/gold_button.dart';
 import '../../domain/fleet_vehicle.dart';
 import '../fleet_vehicle_provider.dart';
+import '../profile_providers.dart';
 
 /// Vehicle picker shown when the driver goes Active — restyled for this
-/// app's black & gold theme (reference app used a light theme).
+/// app's black & gold theme (reference app used a light theme). Lists real
+/// fleet vehicles that are free (or already the driver's own) and persists
+/// the choice server-side on confirm.
 class SelectCarScreen extends ConsumerStatefulWidget {
   const SelectCarScreen({super.key});
 
@@ -20,6 +25,7 @@ class SelectCarScreen extends ConsumerStatefulWidget {
 class _SelectCarScreenState extends ConsumerState<SelectCarScreen> {
   final _searchController = TextEditingController();
   String _query = '';
+  bool _saving = false;
 
   @override
   void dispose() {
@@ -27,16 +33,26 @@ class _SelectCarScreenState extends ConsumerState<SelectCarScreen> {
     super.dispose();
   }
 
+  Future<void> _confirm(String vehicleId) async {
+    setState(() => _saving = true);
+    try {
+      await ref.read(fleetVehicleRepositoryProvider).select(vehicleId);
+      await ref.read(profileRepositoryProvider).refresh();
+      if (mounted) Navigator.pop(context, vehicleId);
+    } on DioException catch (e) {
+      if (mounted) {
+        setState(() => _saving = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(extractApiErrorMessage(e) ?? "Couldn't select that vehicle — please try again.")),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    final vehicles = ref.watch(fleetVehiclesProvider);
+    final vehiclesAsync = ref.watch(fleetVehiclesProvider);
     final selectedId = ref.watch(selectedVehicleIdProvider);
-
-    final filtered = vehicles.where((v) {
-      final q = _query.trim().toLowerCase();
-      if (q.isEmpty) return true;
-      return v.displayName.toLowerCase().contains(q) || v.plateNumber.toLowerCase().contains(q);
-    }).toList();
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -85,28 +101,50 @@ class _SelectCarScreenState extends ConsumerState<SelectCarScreen> {
               ),
               const SizedBox(height: AppSpacing.lg),
               Expanded(
-                child: filtered.isEmpty
-                    ? Center(child: Text('No vehicles match your search', style: AppTextStyles.bodyMuted))
-                    : ListView.separated(
-                        itemCount: filtered.length,
-                        separatorBuilder: (context, index) => const SizedBox(height: AppSpacing.md),
-                        itemBuilder: (context, index) {
-                          final vehicle = filtered[index];
-                          final isSelected = vehicle.id == selectedId;
-                          return _VehicleTile(
-                            vehicle: vehicle,
-                            isSelected: isSelected,
-                            onTap: vehicle.isAvailable
-                                ? () => ref.read(selectedVehicleIdProvider.notifier).select(vehicle.id)
-                                : null,
-                          );
-                        },
-                      ),
+                child: vehiclesAsync.when(
+                  data: (vehicles) {
+                    final filtered = vehicles.where((v) {
+                      final q = _query.trim().toLowerCase();
+                      if (q.isEmpty) return true;
+                      return v.displayName.toLowerCase().contains(q) || v.plateNumber.toLowerCase().contains(q);
+                    }).toList();
+
+                    if (filtered.isEmpty) {
+                      return Center(
+                        child: Text(
+                          vehicles.isEmpty ? 'No vehicles are free right now' : 'No vehicles match your search',
+                          style: AppTextStyles.bodyMuted,
+                        ),
+                      );
+                    }
+
+                    return ListView.separated(
+                      itemCount: filtered.length,
+                      separatorBuilder: (context, index) => const SizedBox(height: AppSpacing.md),
+                      itemBuilder: (context, index) {
+                        final vehicle = filtered[index];
+                        final isSelected = vehicle.id == selectedId;
+                        return _VehicleTile(
+                          vehicle: vehicle,
+                          isSelected: isSelected,
+                          onTap: vehicle.isAvailable
+                              ? () => ref.read(selectedVehicleIdProvider.notifier).select(vehicle.id)
+                              : null,
+                        );
+                      },
+                    );
+                  },
+                  loading: () => const Center(child: CircularProgressIndicator(color: AppColors.gold)),
+                  error: (e, st) => Center(
+                    child: Text("Couldn't load vehicles — pull to retry.", style: AppTextStyles.bodyMuted),
+                  ),
+                ),
               ),
               const SizedBox(height: AppSpacing.lg),
               GoldButton(
                 label: 'Confirm Selection',
-                onPressed: selectedId == null ? null : () => Navigator.pop(context, selectedId),
+                isLoading: _saving,
+                onPressed: selectedId == null || _saving ? null : () => _confirm(selectedId),
               ),
             ],
           ),

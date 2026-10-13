@@ -16,6 +16,7 @@ _DriverProfile _$DriverProfileFromJson(Map<String, dynamic> json) =>
       rating: (json['rating'] as num).toDouble(),
       completedTrips: (json['completedTrips'] as num).toInt(),
       completionRate: (json['completionRate'] as num).toDouble(),
+      todayPayout: (json['todayPayout'] as num?)?.toDouble() ?? 0,
       assignedVehicle: AssignedVehicle.fromJson(
         json['assignedVehicle'] as Map<String, dynamic>,
       ),
@@ -36,6 +37,7 @@ Map<String, dynamic> _$DriverProfileToJson(_DriverProfile instance) =>
       'rating': instance.rating,
       'completedTrips': instance.completedTrips,
       'completionRate': instance.completionRate,
+      'todayPayout': instance.todayPayout,
       'assignedVehicle': instance.assignedVehicle,
       'joinedAt': instance.joinedAt.toIso8601String(),
       'status': _$DriverStatusEnumMap[instance.status]!,
