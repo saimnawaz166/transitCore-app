@@ -41,7 +41,7 @@ class ApiClient {
 
   static const _root = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'https://api.maheralsafar.com',
+    defaultValue: 'http://192.168.1.10:8000/',
   );
 
   // A trailing slash on _root (easy to paste in by accident, e.g. straight
