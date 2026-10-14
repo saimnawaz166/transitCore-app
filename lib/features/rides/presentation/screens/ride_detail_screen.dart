@@ -16,6 +16,7 @@ import '../../../../core/widgets/status_badge.dart';
 import '../../domain/ride_models.dart';
 import '../../domain/ride_status.dart';
 import '../providers/ride_providers.dart';
+import '../utils/ride_slip.dart';
 import '../widgets/report_issue_sheet.dart';
 
 class RideDetailScreen extends ConsumerWidget {
@@ -212,6 +213,18 @@ class _RideDetailBodyState extends ConsumerState<_RideDetailBody> {
     );
   }
 
+  Future<void> _downloadSlip() async {
+    try {
+      await RideSlip.printOrSave(widget.ride);
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Couldn't generate the ride slip — please try again.")),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final ride = widget.ride;
@@ -233,6 +246,11 @@ class _RideDetailBodyState extends ConsumerState<_RideDetailBody> {
           expandedHeight: 200,
           title: Text(ride.jobId, style: AppTextStyles.title),
           actions: [
+            IconButton(
+              onPressed: _downloadSlip,
+              tooltip: 'Download ride slip',
+              icon: const Icon(Icons.download_outlined, color: AppColors.gold),
+            ),
             Padding(
               padding: const EdgeInsets.only(right: AppSpacing.lg),
               child: OutlinedButton(
