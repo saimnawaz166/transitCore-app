@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$RideLocation {
 
- String get label; String get address; double get lat; double get lng;
+ String get label; String get address; double? get lat; double? get lng;
 /// Create a copy of RideLocation
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -54,7 +54,7 @@ abstract mixin class $RideLocationCopyWith<$Res>  {
   factory $RideLocationCopyWith(RideLocation value, $Res Function(RideLocation) _then) = _$RideLocationCopyWithImpl;
 @useResult
 $Res call({
- String label, String address, double lat, double lng
+ String label, String address, double? lat, double? lng
 });
 
 
@@ -71,13 +71,13 @@ class _$RideLocationCopyWithImpl<$Res>
 
 /// Create a copy of RideLocation
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? label = null,Object? address = null,Object? lat = null,Object? lng = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? label = null,Object? address = null,Object? lat = freezed,Object? lng = freezed,}) {
   return _then(RideLocation(
 label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
 as String,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
-as String,lat: null == lat ? _self.lat : lat // ignore: cast_nullable_to_non_nullable
-as double,lng: null == lng ? _self.lng : lng // ignore: cast_nullable_to_non_nullable
-as double,
+as String,lat: freezed == lat ? _self.lat : lat // ignore: cast_nullable_to_non_nullable
+as double?,lng: freezed == lng ? _self.lng : lng // ignore: cast_nullable_to_non_nullable
+as double?,
   ));
 }
 
@@ -162,7 +162,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String label,  String address,  double lat,  double lng)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String label,  String address,  double? lat,  double? lng)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _RideLocation() when $default != null:
 return $default(_that.label,_that.address,_that.lat,_that.lng);case _:
@@ -183,7 +183,7 @@ return $default(_that.label,_that.address,_that.lat,_that.lng);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String label,  String address,  double lat,  double lng)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String label,  String address,  double? lat,  double? lng)  $default,) {final _that = this;
 switch (_that) {
 case _RideLocation():
 return $default(_that.label,_that.address,_that.lat,_that.lng);case _:
@@ -203,7 +203,7 @@ return $default(_that.label,_that.address,_that.lat,_that.lng);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String label,  String address,  double lat,  double lng)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String label,  String address,  double? lat,  double? lng)?  $default,) {final _that = this;
 switch (_that) {
 case _RideLocation() when $default != null:
 return $default(_that.label,_that.address,_that.lat,_that.lng);case _:
@@ -218,13 +218,13 @@ return $default(_that.label,_that.address,_that.lat,_that.lng);case _:
 @JsonSerializable()
 
 class _RideLocation implements RideLocation {
-  const _RideLocation({required this.label, required this.address, required this.lat, required this.lng});
+  const _RideLocation({required this.label, required this.address, this.lat, this.lng});
   factory _RideLocation.fromJson(Map<String, dynamic> json) => _$RideLocationFromJson(json);
 
 @override final  String label;
 @override final  String address;
-@override final  double lat;
-@override final  double lng;
+@override final  double? lat;
+@override final  double? lng;
 
 /// Create a copy of RideLocation
 /// with the given fields replaced by the non-null parameter values.
@@ -261,7 +261,7 @@ abstract mixin class _$RideLocationCopyWith<$Res> implements $RideLocationCopyWi
   factory _$RideLocationCopyWith(_RideLocation value, $Res Function(_RideLocation) _then) = __$RideLocationCopyWithImpl;
 @override @useResult
 $Res call({
- String label, String address, double lat, double lng
+ String label, String address, double? lat, double? lng
 });
 
 
@@ -278,13 +278,13 @@ class __$RideLocationCopyWithImpl<$Res>
 
 /// Create a copy of RideLocation
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? label = null,Object? address = null,Object? lat = null,Object? lng = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? label = null,Object? address = null,Object? lat = freezed,Object? lng = freezed,}) {
   return _then(_RideLocation(
 label: null == label ? _self.label : label // ignore: cast_nullable_to_non_nullable
 as String,address: null == address ? _self.address : address // ignore: cast_nullable_to_non_nullable
-as String,lat: null == lat ? _self.lat : lat // ignore: cast_nullable_to_non_nullable
-as double,lng: null == lng ? _self.lng : lng // ignore: cast_nullable_to_non_nullable
-as double,
+as String,lat: freezed == lat ? _self.lat : lat // ignore: cast_nullable_to_non_nullable
+as double?,lng: freezed == lng ? _self.lng : lng // ignore: cast_nullable_to_non_nullable
+as double?,
   ));
 }
 

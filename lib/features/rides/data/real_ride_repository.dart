@@ -106,11 +106,20 @@ class RealRideRepository implements RideRepository {
       jobId: json['id'] as String,
       scheduledAt: _parseScheduledAt(json['date'] as String?, json['pickupTime'] as String?),
       status: _mapStatus(json['tab'] as String, json['driverProgress'] as String?),
-      // No map/geocoding integration anywhere in this app by design (see
-      // _RouteMapPlaceholder) — lat/lng are required by the model but never
-      // actually read by any widget.
-      pickup: RideLocation(label: pickup['name'] as String? ?? '', address: pickup['address'] as String? ?? '', lat: 0.0, lng: 0.0),
-      dropoff: RideLocation(label: dropoff['name'] as String? ?? '', address: dropoff['address'] as String? ?? '', lat: 0.0, lng: 0.0),
+      // Null for an admin-created booking (free-text address, no location
+      // lookup) — only ever real for one made through the guest/rider flow.
+      pickup: RideLocation(
+        label: pickup['name'] as String? ?? '',
+        address: pickup['address'] as String? ?? '',
+        lat: (pickup['lat'] as num?)?.toDouble(),
+        lng: (pickup['lng'] as num?)?.toDouble(),
+      ),
+      dropoff: RideLocation(
+        label: dropoff['name'] as String? ?? '',
+        address: dropoff['address'] as String? ?? '',
+        lat: (dropoff['lat'] as num?)?.toDouble(),
+        lng: (dropoff['lng'] as num?)?.toDouble(),
+      ),
       passenger: Passenger(name: passenger['name'] as String? ?? '', phone: passenger['phone'] as String? ?? ''),
       vehicle: vehicleDetails == null
           ? const AssignedVehicle(make: '—', model: '—', plateNumber: '—', category: '—')

@@ -9,8 +9,12 @@ abstract class RideLocation with _$RideLocation {
   const factory RideLocation({
     required String label,
     required String address,
-    required double lat,
-    required double lng,
+    // Only ever populated for a booking made through the guest/rider web
+    // flow (a real PricingLocation lookup) — an admin-created booking takes
+    // free-text pickup/dropoff with no coordinates at all, so this is null
+    // there. The map screen must handle that, not assume it's always set.
+    double? lat,
+    double? lng,
   }) = _RideLocation;
 
   factory RideLocation.fromJson(Map<String, dynamic> json) =>

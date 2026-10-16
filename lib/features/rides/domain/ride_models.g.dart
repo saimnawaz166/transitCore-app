@@ -10,8 +10,8 @@ _RideLocation _$RideLocationFromJson(Map<String, dynamic> json) =>
     _RideLocation(
       label: json['label'] as String,
       address: json['address'] as String,
-      lat: (json['lat'] as num).toDouble(),
-      lng: (json['lng'] as num).toDouble(),
+      lat: (json['lat'] as num?)?.toDouble(),
+      lng: (json['lng'] as num?)?.toDouble(),
     );
 
 Map<String, dynamic> _$RideLocationToJson(_RideLocation instance) =>
